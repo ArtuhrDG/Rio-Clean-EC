@@ -1,21 +1,65 @@
-import { useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 
 export default function UploadImage({ onResult, onDenunciar }) {
-  const [image, setImage] = useState(null)
+  const videoRef = useRef(null)
+  const canvasRef = useRef(null)
+
+  const [imagen, setImagen] = useState(null)
   const [preview, setPreview] = useState(null)
 
-  const handleImage = (file) => {
-    setImage(file)
-    setPreview(URL.createObjectURL(file))
+  // 📷 Activar cámara
+  useEffect(() => {
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream
+        }
+      })
+      .catch(err => {
+        console.log("No se pudo acceder a la cámara", err)
+      })
+  }, [])
+
+  // 📸 Tomar foto
+  const tomarFoto = () => {
+    const canvas = canvasRef.current
+    const video = videoRef.current
+
+    canvas.width = video.videoWidth
+    canvas.height = video.videoHeight
+
+    const ctx = canvas.getContext('2d')
+    ctx.drawImage(video, 0, 0)
+
+    const img = canvas.toDataURL('image/png')
+
+    setPreview(img)
+    setImagen(img)
   }
 
-  const analizarImagen = () => {
-    if (!image) {
-      alert("Seleccione o tome una imagen")
+  // 📁 Subir imagen
+  const subirImagen = (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    const url = URL.createObjectURL(file)
+    setPreview(url)
+    setImagen(file)
+  }
+
+  // ❌ Eliminar imagen
+  const eliminarImagen = () => {
+    setImagen(null)
+    setPreview(null)
+  }
+
+  // 🤖 IA simulada
+  const analizar = () => {
+    if (!imagen) {
+      alert("Primero toma o selecciona una imagen")
       return
     }
 
-    // 🔥 Simulación IA
     const niveles = ['Vacío', 'Medio', 'Lleno', 'Desbordado']
     const nivel = niveles[Math.floor(Math.random() * niveles.length)]
 
@@ -28,59 +72,126 @@ export default function UploadImage({ onResult, onDenunciar }) {
     onResult(resultado)
   }
 
-  const handleDenunciar = () => {
-    if (!image) {
+  // 🚨 Denunciar
+  const denunciar = () => {
+    if (!imagen) {
       alert("Primero analiza una imagen")
       return
     }
 
-    const denuncia = {
+    const data = {
       id: Date.now(),
-      tipo_residuo: "Detectado por IA",
       estado: "Pendiente",
-      fecha: new Date().toISOString()
+      tipo_residuo: "Detectado por IA"
     }
 
-    onDenunciar(denuncia)
-    alert("🚨 Denuncia enviada al sistema")
+    onDenunciar(data)
+    alert("🚨 Denuncia enviada")
   }
 
   return (
-    <div style={{ border: '1px solid gray', padding: '15px' }}>
-      <h3>Subir o Capturar Imagen</h3>
+    <div style={{ padding: '20px' }}>
 
-      {/* 📁 Seleccionar archivo */}
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => handleImage(e.target.files[0])}
-      />
+      <h2>📷 Visión IA</h2>
 
-      {/* 📷 Tomar foto */}
-      <input
-        type="file"
-        accept="image/*"
-        capture="environment"
-        onChange={(e) => handleImage(e.target.files[0])}
-      />
+      <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
 
-      {/* 👁 Vista previa */}
-      {preview && (
+        {/* 🎥 Cámara SOLO si no hay imagen */}
         <div>
-          <h4>Vista previa:</h4>
-          <img src={preview} alt="preview" width="200" />
+          {!preview && (
+            <>
+              <video 
+                ref={videoRef} 
+                autoPlay 
+                style={{ width: '300px', borderRadius: '10px' }}
+              />
+              <br />
+
+              <button onClick={tomarFoto} style={btnPrimary}>
+                📸 Tomar Foto
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* 👁 Vista previa */}
+        <div>
+          {preview ? (
+            <div>
+              <img 
+                src={preview} 
+                alt="preview" 
+                style={{ width: '300px', borderRadius: '10px' }} 
+              />
+
+              <br />
+
+              <button onClick={eliminarImagen} style={btnDelete}>
+                ❌ Eliminar imagen
+              </button>
+            </div>
+          ) : (
+            <p>Sin imagen</p>
+          )}
+        </div>
+      </div>
+
+      {/* 📁 Subir imagen SOLO si no hay imagen */}
+      {!preview && (
+        <div style={{ marginTop: '15px' }}>
+          <input type="file" accept="image/*" onChange={subirImagen} />
         </div>
       )}
 
-      <br />
+      {/* ⚙️ Botones */}
+      <div style={{ marginTop: '20px' }}>
+        <button onClick={analizar} style={btnSuccess}>
+          🤖 Analizar
+        </button>
 
-      <button onClick={analizarImagen}>
-        🤖 Analizar con IA
-      </button>
+        <button onClick={denunciar} style={btnDanger}>
+          🚨 Denunciar
+        </button>
+      </div>
 
-      <button onClick={handleDenunciar} style={{ marginLeft: '10px', background: 'red', color: 'white' }}>
-        🚨 Denunciar
-      </button>
+      <canvas ref={canvasRef} style={{ display: 'none' }} />
+
     </div>
   )
+}
+
+// 🎨 estilos
+const btnPrimary = {
+  marginTop: '10px',
+  padding: '10px',
+  background: '#3b82f6',
+  color: 'white',
+  border: 'none',
+  borderRadius: '8px'
+}
+
+const btnSuccess = {
+  padding: '10px',
+  marginRight: '10px',
+  background: '#22c55e',
+  color: 'white',
+  border: 'none',
+  borderRadius: '8px'
+}
+
+const btnDanger = {
+  padding: '10px',
+  background: '#ef4444',
+  color: 'white',
+  border: 'none',
+  borderRadius: '8px'
+}
+
+const btnDelete = {
+  marginTop: '10px',
+  padding: '8px',
+  background: '#6b7280',
+  color: 'white',
+  border: 'none',
+  borderRadius: '8px'
 }

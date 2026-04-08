@@ -1,20 +1,33 @@
 export default function ContenedorCard({ contenedor }) {
+
   const getColor = () => {
-    if (contenedor.estado === 'Lleno') return 'red'
-    if (contenedor.estado === 'Operativo') return 'green'
-    return 'orange'
+    if (contenedor.estado === 'Lleno') return '#ef4444'
+    if (contenedor.estado === 'Operativo') return '#22c55e'
+    return '#f59e0b'
   }
 
   return (
     <div style={{
-      border: '1px solid gray',
-      margin: '10px',
-      padding: '10px',
-      borderLeft: `5px solid ${getColor()}`
+      background: '#22263a',
+      padding: '15px',
+      borderRadius: '12px',
+      borderLeft: `6px solid ${getColor()}`,
+      boxShadow: '0 4px 15px rgba(0,0,0,0.4)',
+      color: 'white',
+      transition: '0.3s'
     }}>
-      <h4>{contenedor.id}</h4>
-      <p>Tipo: {contenedor.tipo}</p>
-      <p>Estado: {contenedor.estado}</p>
+      <h3>🗑 {contenedor.id}</h3>
+
+      <p><b>Tipo:</b> {contenedor.tipo}</p>
+      <p><b>Estado:</b> 
+        <span style={{ color: getColor(), marginLeft: '5px' }}>
+          {contenedor.estado}
+        </span>
+      </p>
+
+      <p style={{ fontSize: '12px', color: '#94a3b8' }}>
+        📍 {contenedor.lat}, {contenedor.lng}
+      </p>
     </div>
   )
 }

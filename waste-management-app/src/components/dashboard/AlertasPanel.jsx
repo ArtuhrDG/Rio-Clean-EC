@@ -9,9 +9,9 @@ const alertas = [
 ]
 
 const estilos = {
-  critical: { bg: '#FCEBEB', dot: '#E24B4A' },
-  warning:  { bg: '#FAEEDA', dot: '#EF9F27' },
-  info:     { bg: '#E6F1FB', dot: '#378ADD' },
+  critical: { bg: '#8d1717', dot: '#E24B4A' },
+  warning:  { bg: '#a77829', dot: '#EF9F27' },
+  info:     { bg: '#3c73a7', dot: '#378ADD' },
 }
 
 export default function AlertasPanel() {

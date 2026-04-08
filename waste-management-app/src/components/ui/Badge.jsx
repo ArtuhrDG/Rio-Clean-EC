@@ -1,7 +1,8 @@
-import { estadoColor } from '@/utils/estadoColor'
+// Badge.jsx
+import { colorPorNivel } from '@/utils/estadoColor'
 
 export default function Badge({ estado }) {
-  const color = estadoColor(estado)
+  const color = colorPorNivel(estado)  // <--- aquí usas colorPorNivel
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center', gap: 5,
