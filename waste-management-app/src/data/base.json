@@ -1,0 +1,45 @@
+{
+  "ciudad": "Riobamba",
+  "centro_de_acopio": {
+    "id": "base_01",
+    "nombre": "GADM Riobamba - Gestión Ambiental",
+    "lat": -1.6651,
+    "lng": -78.6502
+  },
+  "contenedores_fijos": [
+    {
+      "id": "c_001",
+      "tipo": "Normal",
+      "estado": "Operativo",
+      "lat": -1.6685,
+      "lng": -78.6481
+    },
+    {
+      "id": "c_002",
+      "tipo": "Reciclaje",
+      "estado": "Lleno",
+      "lat": -1.6712,
+      "lng": -78.6534
+    }
+  ],
+  "alertas_ciudadanas": [
+    {
+      "id": "alerta_001",
+      "fecha_reporte": "2026-04-08T09:15:00Z",
+      "tipo_residuo": "Plástico y Cartón",
+      "verificado_por_ia": true,
+      "lat": -1.6620,
+      "lng": -78.6450,
+      "estado": "Pendiente de Recolección"
+    },
+    {
+      "id": "alerta_002",
+      "fecha_reporte": "2026-04-08T09:30:00Z",
+      "tipo_residuo": "Escombros y Basura Acumulada",
+      "verificado_por_ia": true,
+      "lat": -1.6605,
+      "lng": -78.6555,
+      "estado": "Pendiente de Recolección"
+    }
+  ]
+}
