@@ -15,7 +15,7 @@ export default function Sidebar() {
     <aside className={styles.sidebar}>
       <div className={styles.logo}>
         <span className={styles.dot} />
-        <span>TecniCobro</span>
+        <span>Rio-Clean-EC</span>
       </div>
       <nav className={styles.nav}>
         {links.map(({ to, icon: Icon, label }) => (
