@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from core.config import APP_NAME, VERSION
-from api.routes import router
+from api.routers import router
 
 app = FastAPI(title=APP_NAME, version=VERSION)
 
