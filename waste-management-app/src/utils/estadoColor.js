@@ -1,12 +1,10 @@
-// Mapea el estado del contenedor/alerta a color CSS
-export const estadoColor = (estado = '') => {
-  const m = {
-    'Operativo':              '#3dd68c',
-    'Lleno':                  '#f59e0b',
-    'Desbordado':             '#ef4444',
-    'Pendiente de Recolección': '#f59e0b',
-    'Recolectado':            '#3dd68c',
-    'Fuera de servicio':      '#94a3b8',
+// src/utils/estadoColor.js
+export const colorPorNivel = (nivel) => {
+  const colores = {
+    vacio:       '#639922',
+    medio:       '#EF9F27',
+    lleno:       '#E24B4A',
+    desbordado:  '#A32D2D',
   }
-  return m[estado] ?? '#94a3b8'
+  return colores[nivel] ?? '#888'
 }
