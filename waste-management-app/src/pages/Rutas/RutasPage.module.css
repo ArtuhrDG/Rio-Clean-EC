@@ -1,0 +1,142 @@
+/* ── Layout ─────────────────────────────────────────────────── */
+.page  { display:flex; flex-direction:column; gap:20px; height:100%; min-height:0; }
+.kpis  { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+.main  { display:grid; grid-template-columns:300px 1fr; gap:16px; flex:1; min-height:0; overflow:hidden; }
+
+@media (max-width:900px) {
+  .kpis { grid-template-columns:repeat(2,1fr); }
+  .main { grid-template-columns:1fr; }
+}
+
+/* ── Panel izquierdo ─────────────────────────────────────────── */
+.panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  overflow: hidden;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.conteo {
+  margin-left: auto;
+  background: var(--color-surface-2);
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 0.72rem;
+  color: var(--color-primary);
+  border: 1px solid var(--color-border);
+}
+
+/* ── Botones ────────────────────────────────────────────────── */
+.btnGroup { display:flex; gap:8px; }
+.btnPrimary {
+  flex:1; display:flex; align-items:center; justify-content:center; gap:7px;
+  background: var(--color-primary); color: #0f1117;
+  font-size:0.83rem; font-weight:700; padding:10px 16px;
+  border-radius:var(--radius-md); border:none;
+  transition: background .15s, transform .1s;
+}
+.btnPrimary:hover:not(:disabled) { background: var(--color-primary-d); transform:translateY(-1px); }
+.btnPrimary:disabled { opacity:.5; cursor:not-allowed; }
+.btnGhost {
+  flex:1; display:flex; align-items:center; justify-content:center; gap:6px;
+  background: var(--color-surface-2); color: var(--color-muted);
+  font-size:0.8rem; padding:9px 14px;
+  border-radius:var(--radius-md); border:1px solid var(--color-border);
+  transition: background .15s;
+}
+.btnGhost:hover { background: var(--color-border); color: var(--color-text); }
+
+/* ── Lista paradas ───────────────────────────────────────────── */
+.lista { flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:6px; padding-right:2px; }
+.lista::-webkit-scrollbar { width:4px; }
+.lista::-webkit-scrollbar-track { background: transparent; }
+.lista::-webkit-scrollbar-thumb { background: var(--color-border); border-radius:4px; }
+
+.stopCard {
+  display:flex; align-items:center; gap:10px;
+  background: var(--color-surface-2);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-md);
+  padding:10px 12px;
+  transition: border-color .15s;
+  animation: fadeIn .25s ease;
+}
+.stopCard:hover { border-color: var(--color-primary); }
+@keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:none} }
+
+.stopNum {
+  width:24px; height:24px; border-radius:50%;
+  background: var(--color-primary); color: #0f1117;
+  font-size:0.72rem; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.stopIcon {
+  width:24px; height:24px; border-radius:50%;
+  background: rgba(248,114,39,.15); color:#f97316;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.iconAlerta { background:rgba(239,68,68,.15); color:#ef4444; }
+
+.stopInfo  { flex:1; display:flex; flex-direction:column; gap:3px; min-width:0; }
+.stopNombre { font-size:0.78rem; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--color-text); }
+
+.prioBadge {
+  font-size:0.65rem; font-weight:700; text-align:center;
+  padding:4px 8px; border-radius:var(--radius-sm);
+  line-height:1.2; flex-shrink:0;
+}
+.prioBadge small { font-weight:400; opacity:.8; }
+
+/* ── Fórmula ─────────────────────────────────────────────────── */
+.formula {
+  background: var(--color-surface-2);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-md);
+  padding:10px 12px;
+  display:flex; flex-direction:column; gap:4px;
+}
+.formulaTitle { font-size:0.68rem; color:var(--color-muted); text-transform:uppercase; letter-spacing:.06em; }
+.formula code { font-size:0.75rem; color:var(--color-primary); font-family:monospace; }
+.formulaSub   { font-size:0.68rem; color:var(--color-muted); }
+
+/* ── Resumen ruta ────────────────────────────────────────────── */
+.resumen {
+  display:flex; gap:8px; align-items:flex-start;
+  background:rgba(61,214,140,.08);
+  border:1px solid rgba(61,214,140,.25);
+  border-radius:var(--radius-md); padding:10px 12px;
+  font-size:0.8rem; color:var(--color-text);
+  animation: fadeIn .3s ease;
+}
+
+/* ── Mapa ────────────────────────────────────────────────────── */
+.mapa {
+  position:relative; border-radius:var(--radius-lg); overflow:hidden;
+  border:1px solid var(--color-border);
+}
+
+/* ── Leyenda ─────────────────────────────────────────────────── */
+.leyenda {
+  position:absolute; bottom:14px; left:14px; z-index:999;
+  background:rgba(26,29,39,.9); backdrop-filter:blur(8px);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-md); padding:10px 14px;
+  display:flex; flex-direction:column; gap:6px;
+}
+
+/* ── Spinner animation ──────────────────────────────────────── */
+.spin { animation: rotar .7s linear infinite; }
+@keyframes rotar { to { transform: rotate(360deg); } }
